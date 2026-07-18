@@ -28,7 +28,7 @@ const persist = items => localStorage.setItem(STORE, JSON.stringify(items));
 const readApiJson = async response => {
   const text = await response.text();
   try { return text ? JSON.parse(text) : {}; }
-  catch { throw new Error(`API returned HTML instead of JSON (${response.status}). Start the backend with “npm run server”, then restart “npm run dev”.`); }
+  catch { throw new Error(`API returned an invalid response (${response.status}). Please try again shortly.`); }
 };
 const E = ({ children }) => <span className="eyebrow"><i /> {children}</span>;
 const ToolGuide = ({ number, name, use, output, children }) => <article className="guided-tool"><div className="tool-copy"><b>{number} · {name}</b><h3>{name}</h3><p><strong>How to use:</strong> {use}</p><p><strong>Your output:</strong> {output}</p></div><div className="tool-control">{children}</div></article>;

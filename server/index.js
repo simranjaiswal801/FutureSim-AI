@@ -10,7 +10,8 @@ import { requireAuth } from './middleware/auth.js';
 import { askAssistant, runSimulation } from './services/simulation.js';
 
 const app = express();
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173').split(',').map(origin => origin.trim().replace(/\/$/, '')).filter(Boolean);
+app.use(cors({ origin(origin, callback) { if (!origin || allowedOrigins.includes(origin.replace(/\/$/, ''))) return callback(null, true); return callback(new Error('This origin is not allowed to access the API.')); } }));
 app.use(express.json({ limit: '1mb' }));
 const token = user => jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 const safeUser = user => ({ id: user._id, name: user.name, email: user.email });
@@ -54,4 +55,7 @@ app.use((error, _, res, __) => {
   const message = error instanceof Error ? error.message : 'Unexpected server error.';
   res.status(error.status || 500).json({ message });
 });
-mongoose.connect(process.env.MONGODB_URI).then(() => app.listen(process.env.PORT || 5000, () => console.log('FutureSim API running'))).catch(error => { console.error('MongoDB connection failed:', error.message); process.exit(1); });
+const requiredEnvironment = ['MONGODB_URI', 'JWT_SECRET'];
+const missingEnvironment = requiredEnvironment.filter(key => !process.env[key]);
+if (missingEnvironment.length) { console.error(`Missing required environment variables: ${missingEnvironment.join(', ')}`); process.exit(1); }
+mongoose.connect(process.env.MONGODB_URI).then(() => app.listen(process.env.PORT || 5000, '0.0.0.0', () => console.log('FutureSim API running'))).catch(error => { console.error('MongoDB connection failed:', error.message); process.exit(1); });

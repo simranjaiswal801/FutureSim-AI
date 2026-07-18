@@ -5,7 +5,7 @@ function fallback(answers) {
   return { successProbability, riskLevel: answers.risk || 'Medium', expectedTime: '8 months', summary: `A focused route towards ${answers.goal || 'your goal'}.`, recommendation: ['Strengthen core skills', 'Build 3 practical projects', 'Review progress every 4 weeks'], skillGaps: ['TypeScript', 'Problem solving', 'Portfolio projects', 'Communication'], timeline: [{ period: 'Month 1', milestone: 'Set foundations' }, { period: 'Month 3', milestone: 'Build proof of work' }, { period: 'Month 6', milestone: 'Apply consistently' }], scenarios: { best: Math.min(98, successProbability + 5), likely: successProbability, challenge: Math.max(45, successProbability - 20) }, source: 'rules-engine' };
 }
 
-const geminiModel = () => process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+const geminiModel = () => process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
 async function generateGemini(body) {
   const apiKey = process.env.GEMINI_API_KEY;
