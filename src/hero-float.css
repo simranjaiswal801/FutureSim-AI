@@ -1,0 +1,16 @@
+.orbital .float {
+  will-change: transform;
+  animation: orbit-card-float 5s ease-in-out infinite;
+}
+
+.orbital .f2 { animation-delay: -1.7s; }
+.orbital .f3 { animation-delay: -3.3s; }
+
+@keyframes orbit-card-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -9px, 0) rotate(.6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital .float { animation: none; }
+}
