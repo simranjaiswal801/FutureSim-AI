@@ -23,3 +23,9 @@ Import the same GitHub repo in Vercel and set Root Directory to client. Add VITE
 Set Render's CLIENT_ORIGIN to the final exact Vercel production URL, then redeploy Render. Multiple allowed origins may be comma-separated for previews. Test signup, login, simulation, and assistant in an incognito window.
 
 Never commit .env files or database/API secrets.
+
+
+
+
+simranjaiswal
+mongodb+srv://simranjaiswal801_db_user:simranjaiswal@cluster0.yputqar.mongodb.net/
